@@ -2,7 +2,7 @@ package br.com.timesync.services;
 
 import br.com.timesync.entities.Servico;
 import br.com.timesync.exceptions.ObjectNotFoundException;
-import br.com.timesync.repositories.ServicoRespository;
+import br.com.timesync.repositories.ServicoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ServicoService {
 
-    private final ServicoRespository servicoRespository;
+    private final ServicoRepository servicoRespository;
 
     public List<Servico> buscarTodos() {
         return this.servicoRespository.findAll();
