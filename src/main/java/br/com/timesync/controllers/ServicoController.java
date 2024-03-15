@@ -28,7 +28,7 @@ public class ServicoController {
     }
 
     @PostMapping
-        public ResponseEntity<Servico> salvar(@RequestBody Servico servico) {
+    public ResponseEntity<Servico> salvar(@RequestBody Servico servico) {
         servico = this.servicoService.salvar(servico);
         final URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(servico.getId()).toUri();
         return ResponseEntity.created(uri).body(servico);
