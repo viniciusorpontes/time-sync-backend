@@ -23,6 +23,11 @@ public class ServicoService {
                 () -> new ObjectNotFoundException(String.format("Id %s não encontrado", id)));
     }
 
+    public Servico buscarUsuarioPorId(Integer IdUsuario) {
+        return (Servico) this.servicoRespository.findByUsuarioId(IdUsuario).orElseThrow(
+                () -> new ObjectNotFoundException(String.format("Usuário %s não encontrado", IdUsuario)));
+    }
+
     public Servico salvar(Servico servico) {
         return servicoRespository.save(servico);
     }

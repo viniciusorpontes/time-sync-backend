@@ -32,6 +32,9 @@ public class Servico {
     @Column(name = "ativo", nullable = false)
     private Boolean ativo;
 
+    @Column(name = "usuario_id", nullable = false)
+    private Integer usuarioId;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
