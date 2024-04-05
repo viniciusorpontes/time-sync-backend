@@ -6,6 +6,7 @@ import br.com.timesync.repositories.ServicoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.util.List;
 
 @Service
@@ -32,4 +33,10 @@ public class ServicoService {
         return servicoRespository.save(servico);
     }
 
+    public Duration calcularDuracaoServicos(List<Servico> servicos) {
+        return servicos.stream()
+                .map(Servico::getTempo) //Transformando uma lista de Servicos em uma lista de tempos de serviços
+                .map(tempoServico -> Duration.ofHours(tempoServico.getHour()).plusMinutes(tempoServico.getMinute())) //Transformando tempo de serviços (que está em hora) em uma Duration
+                .reduce(Duration.ZERO, Duration::plus); //Somando as Durations
+    }
 }
