@@ -16,6 +16,15 @@ import java.util.Objects;
 @Entity
 public class Agendamento {
 
+    public Agendamento(LocalDateTime dataChegada, LocalDateTime dataSaida, List<Servico> servicos, Usuario cliente, Usuario consumidor) {
+        this.dataChegada = dataChegada;
+        this.dataSaida = dataSaida;
+        this.ativo = Boolean.TRUE;
+        this.servicos = servicos;
+        this.cliente = cliente;
+        this.consumidor = consumidor;
+    }
+
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,15 +54,6 @@ public class Agendamento {
     @ManyToOne
     @JoinColumn(name = "consumidor_id")
     private Usuario consumidor;
-
-    public Agendamento(LocalDateTime dataChegada, LocalDateTime dataSaida, List<Servico> servicos, Usuario cliente, Usuario consumidor) {
-        this.dataChegada = dataChegada;
-        this.dataSaida = dataSaida;
-        this.ativo = Boolean.TRUE;
-        this.servicos = servicos;
-        this.cliente = cliente;
-        this.consumidor = consumidor;
-    }
 
     @Override
     public boolean equals(Object o) {
