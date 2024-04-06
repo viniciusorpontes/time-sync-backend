@@ -27,8 +27,8 @@ public class ServicoController {
         return ResponseEntity.ok().body(servicoService.buscarPorId(id));
     }
 
-    @GetMapping("/buscarServicoPorUsuarioId")
-    public ResponseEntity<List<Servico>> buscarUsuarioPorId(@RequestParam Integer usuarioId) {
+    @GetMapping("/buscarServicosPorUsuarioId")
+    public ResponseEntity<List<Servico>> buscarServicoPorUsuarioId(@RequestParam Integer usuarioId) {
         return ResponseEntity.ok().body(servicoService.buscarServicosPorUsuarioId(usuarioId));
     }
 
