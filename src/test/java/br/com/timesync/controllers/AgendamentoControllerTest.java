@@ -92,7 +92,8 @@ public class AgendamentoControllerTest {
                 "Corte de Cabelo",
                 LocalTime.of(1, 0),
                 new BigDecimal("35"),
-                Boolean.TRUE
+                Boolean.TRUE,
+                getCliente().getId()
         );
     }
 
