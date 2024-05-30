@@ -28,10 +28,10 @@ public class AgendamentoService {
     }
 
     public Agendamento salvar(AgendamentoDTO agendamentoDTO) {
-        final LocalDateTime dataChegada = agendamentoDTO.getDataChegada();
-        final List<Servico> servicos = getServicos(agendamentoDTO.getIdsServicos());
-        final Usuario cliente = usuarioService.buscarPorId(agendamentoDTO.getClienteId());
-        final Usuario consumidor = usuarioService.buscarPorId(agendamentoDTO.getConsumidorId());
+        final LocalDateTime dataChegada = agendamentoDTO.dataChegad();
+        final List<Servico> servicos = getServicos(agendamentoDTO.idsServicos());
+        final Usuario cliente = usuarioService.buscarPorId(agendamentoDTO.clienteId());
+        final Usuario consumidor = usuarioService.buscarPorId(agendamentoDTO.consumidorId());
 
         final Agendamento agendamento = new Agendamento(dataChegada, getDataSaida(dataChegada, servicos), servicos, cliente, consumidor);
         this.agendamentoRepository.save(agendamento);
