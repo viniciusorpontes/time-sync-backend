@@ -4,11 +4,14 @@ import br.com.timesync.entities.Usuario;
 import br.com.timesync.exceptions.ObjectNotFoundException;
 import br.com.timesync.repositories.UsuarioRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class UsuarioService {
+public class UsuarioService implements UserDetailsService {
 
     private final UsuarioRepository usuarioRepository;
 
@@ -17,13 +20,13 @@ public class UsuarioService {
                 () -> new ObjectNotFoundException(String.format("Id %s não encontrado", usuarioId)));
     }
 
-    public Usuario buscarPorEmail(String email) {
-        return (Usuario) this.usuarioRepository.findByEmail(email).orElseThrow(
-                () -> new ObjectNotFoundException(String.format("Email %s não encontrado", email)));
-    }
-
     public Usuario salvar(Usuario usuario) {
         return usuarioRepository.save(usuario);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return usuarioRepository.findByEmail(email);
     }
 
 }
