@@ -17,12 +17,12 @@ public class AgendamentoController {
 
     private final AgendamentoService agendamentoService;
 
-    @GetMapping("{id}")
-    public ResponseEntity<Agendamento> buscarPorId(@PathVariable Integer id) {
+    @GetMapping("/buscarPorId")
+    public ResponseEntity<Agendamento> buscarPorId(@RequestParam Integer id) {
         return ResponseEntity.ok().body(agendamentoService.buscarPorId(id));
     }
 
-    @PostMapping
+    @PostMapping("/salvar")
     public ResponseEntity<Agendamento> salvar(@RequestBody AgendamentoDTO agendamentoDTO) {
         final Agendamento agendamento = this.agendamentoService.salvar(agendamentoDTO);
         final URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(agendamento.getId()).toUri();
