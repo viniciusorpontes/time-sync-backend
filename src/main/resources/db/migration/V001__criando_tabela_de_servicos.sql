@@ -1,4 +1,4 @@
-CREATE TABLE servico
+CREATE TABLE servicos
 (
     id    SERIAL        NOT NULL PRIMARY KEY,
     nome  VARCHAR(100)  NOT NULL,

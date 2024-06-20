@@ -14,6 +14,7 @@ import java.util.Objects;
 @Setter
 @ToString
 @Entity
+@Table(name = "agendamentos")
 public class Agendamento {
 
     public Agendamento(LocalDateTime dataChegada, LocalDateTime dataSaida, List<Servico> servicos, Usuario cliente, Usuario consumidor) {
@@ -40,7 +41,7 @@ public class Agendamento {
     private Boolean ativo;
 
     @ManyToMany
-    @JoinTable(name = "agendamento_servico",
+    @JoinTable(name = "agendamentos_servicos",
             joinColumns = @JoinColumn(name = "agendamento_id"),
             inverseJoinColumns = @JoinColumn(name = "servico_id")
     )
