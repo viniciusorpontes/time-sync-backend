@@ -3,7 +3,7 @@ package br.com.timesync.controllers;
 import br.com.timesync.dto.LoginRequestDTO;
 import br.com.timesync.dto.LoginResponseDTO;
 import br.com.timesync.entities.Usuario;
-import br.com.timesync.services.LoginService;
+import br.com.timesync.services.TokenService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class LoginController {
 
-    private final LoginService loginService;
+    private final TokenService tokenService;
     private final AuthenticationManager authenticationManager;
 
     @PostMapping
@@ -28,7 +28,7 @@ public class LoginController {
         // Autentica o objeto UsernamePasswordAuthenticationToken e retorna um Usuario
         final var usuario = (Usuario) authenticationManager.authenticate(authenticationToken).getPrincipal();
         // Gera um token para o Usuario logado
-        final var tokenJWT = loginService.gerarToken(usuario);
+        final var tokenJWT = tokenService.gerarToken(usuario);
         // Insere o Token JWT no objeto LoginResponseDTO
         return ResponseEntity.ok(new LoginResponseDTO(tokenJWT));
     }
