@@ -12,6 +12,11 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
 
+    public Usuario buscarPorId(Integer usuarioId) {
+        return this.usuarioRepository.findById(usuarioId).orElseThrow(
+                () -> new ObjectNotFoundException(String.format("Id %s não encontrado", usuarioId)));
+    }
+
     public Usuario buscarPorEmail(String email) {
         return (Usuario) this.usuarioRepository.findByEmail(email).orElseThrow(
                 () -> new ObjectNotFoundException(String.format("Email %s não encontrado", email)));
