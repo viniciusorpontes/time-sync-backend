@@ -28,7 +28,7 @@ public class AgendamentoService {
     }
 
     public Agendamento salvar(AgendamentoDTO agendamentoDTO) {
-        final LocalDateTime dataChegada = agendamentoDTO.dataChegad();
+        final LocalDateTime dataChegada = agendamentoDTO.dataChegada();
         final List<Servico> servicos = getServicos(agendamentoDTO.idsServicos());
         final Usuario cliente = usuarioService.buscarPorId(agendamentoDTO.clienteId());
         final Usuario consumidor = usuarioService.buscarPorId(agendamentoDTO.consumidorId());
