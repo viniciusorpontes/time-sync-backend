@@ -24,6 +24,10 @@ public class ServicoService {
                 () -> new ObjectNotFoundException(String.format("Id %s não encontrado", id)));
     }
 
+    public List<Servico> buscarServicosPorUsuarioId(Integer IdUsuario) {
+        return this.servicoRespository.findByUsuarioId(IdUsuario);
+    }
+
     public Servico salvar(Servico servico) {
         return servicoRespository.save(servico);
     }
