@@ -74,8 +74,8 @@ public class AgendamentoServiceTest {
         final Usuario consumidor = getConsumidor();
         final Servico servico = getServico();
 
-        when(usuarioService.buscarPorId(agendamentoDTO.getClienteId())).thenReturn(cliente);
-        when(usuarioService.buscarPorId(agendamentoDTO.getConsumidorId())).thenReturn(consumidor);
+        when(usuarioService.buscarPorId(agendamentoDTO.clienteId())).thenReturn(cliente);
+        when(usuarioService.buscarPorId(agendamentoDTO.consumidorId())).thenReturn(consumidor);
         when(servicoService.buscarPorId(anyInt())).thenReturn(servico);
 
         final Agendamento resultadoAgendamento = agendamentoService.salvar(agendamentoDTO);

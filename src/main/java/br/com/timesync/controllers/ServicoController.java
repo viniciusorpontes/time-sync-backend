@@ -22,8 +22,8 @@ public class ServicoController {
         return ResponseEntity.ok().body(this.servicoService.buscarTodos());
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<Servico> buscarPorId(@PathVariable Integer id) {
+    @GetMapping("/buscarPorId")
+    public ResponseEntity<Servico> buscarPorId(@RequestParam Integer id) {
         return ResponseEntity.ok().body(servicoService.buscarPorId(id));
     }
 
@@ -32,7 +32,7 @@ public class ServicoController {
         return ResponseEntity.ok().body(servicoService.buscarServicosPorUsuarioId(usuarioId));
     }
 
-    @PostMapping
+    @PostMapping("/salvar")
     public ResponseEntity<Servico> salvar(@RequestBody Servico servico) {
         servico = this.servicoService.salvar(servico);
         final URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(servico.getId()).toUri();

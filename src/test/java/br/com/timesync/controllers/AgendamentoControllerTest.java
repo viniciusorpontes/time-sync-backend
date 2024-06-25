@@ -24,6 +24,7 @@ import java.time.LocalTime;
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class AgendamentoControllerTest {
@@ -59,9 +60,11 @@ public class AgendamentoControllerTest {
     @Test
     @DisplayName("Teste salvar agendamento com sucesso")
     public void testSalvarComSucesso() {
-        AgendamentoDTO agendamentoDTO = new AgendamentoDTO();
-        Agendamento agendamento = new Agendamento();
+        final AgendamentoDTO agendamentoDTO = mock(AgendamentoDTO.class);
+
+        final Agendamento agendamento = new Agendamento();
         agendamento.setId(1);
+
         when(agendamentoService.salvar(agendamentoDTO)).thenReturn(agendamento);
 
         ResponseEntity<Agendamento> response = agendamentoController.salvar(agendamentoDTO);

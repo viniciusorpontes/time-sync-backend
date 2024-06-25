@@ -16,14 +16,16 @@ public class UsuarioController {
 
     private final UsuarioService usuarioSevice;
 
-    @GetMapping("/buscarPorEmail")
-    public ResponseEntity<Usuario> buscarPorEmail(@RequestParam String email) {
-        return ResponseEntity.ok().body(usuarioSevice.buscarPorEmail(String.valueOf(email)));
+    @GetMapping("/buscarPorId")
+    public ResponseEntity<Usuario> buscarPorId(@RequestParam Integer id) {
+        return ResponseEntity.ok().body(usuarioSevice.buscarPorId(id));
     }
-    @PostMapping
+
+    @PostMapping("/salvar")
     public ResponseEntity<Usuario> salvar(@RequestBody Usuario usuario) {
         usuario = this.usuarioSevice.salvar(usuario);
         final URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(usuario.getId()).toUri();
         return ResponseEntity.created(uri).body(usuario);
     }
+
 }
