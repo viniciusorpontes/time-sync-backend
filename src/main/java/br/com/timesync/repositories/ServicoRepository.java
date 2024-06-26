@@ -11,4 +11,6 @@ public interface ServicoRepository extends JpaRepository<Servico, Integer> {
 
     List<Servico> findByUsuarioId(Integer usuarioId);
 
+    List<Servico> findAllByAtivoTrue();
+
 }

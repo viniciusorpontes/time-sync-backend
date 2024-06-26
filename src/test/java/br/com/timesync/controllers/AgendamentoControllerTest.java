@@ -83,10 +83,10 @@ public class AgendamentoControllerTest {
         return new Agendamento(1,
                 dataAtual,
                 dataAtual.plusHours(1),
-                Boolean.TRUE,
                 Collections.singletonList(servico),
                 cliente,
-                consumidor
+                consumidor,
+                Boolean.TRUE
         );
     }
 

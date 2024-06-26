@@ -8,17 +8,24 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/usuarios")
 @AllArgsConstructor
+@CrossOrigin
 public class UsuarioController {
 
     private final UsuarioService usuarioSevice;
 
-    @GetMapping("/buscarPorId")
-    public ResponseEntity<Usuario> buscarPorId(@RequestParam Integer id) {
-        return ResponseEntity.ok().body(usuarioSevice.buscarPorId(id));
+    @GetMapping("/buscarTodos")
+    public ResponseEntity<List<Usuario>> buscarTodos() {
+        return ResponseEntity.ok().body(usuarioSevice.buscarTodos());
+    }
+
+    @GetMapping("/buscarPorEmail")
+    public ResponseEntity<Usuario> buscarPorEmail(@RequestParam String email) {
+        return ResponseEntity.ok().body(usuarioSevice.buscarPorEmail(String.valueOf(email)));
     }
 
     @PostMapping("/salvar")

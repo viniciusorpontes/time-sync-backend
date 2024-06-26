@@ -9,13 +9,20 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/agendamentos")
 @AllArgsConstructor
+@CrossOrigin
 public class AgendamentoController {
 
     private final AgendamentoService agendamentoService;
+
+    @GetMapping("/buscarTodos")
+    public ResponseEntity<List<Agendamento>> buscarTodos() {
+        return ResponseEntity.ok().body(agendamentoService.buscarTodos());
+    }
 
     @GetMapping("/buscarPorId")
     public ResponseEntity<Agendamento> buscarPorId(@RequestParam Integer id) {

@@ -13,11 +13,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/servicos")
 @AllArgsConstructor
+@CrossOrigin
 public class ServicoController {
 
     private final ServicoService servicoService;
 
-    @GetMapping
+    @GetMapping("/buscarTodos")
     public ResponseEntity<List<Servico>> buscarTodos() {
         return ResponseEntity.ok().body(this.servicoService.buscarTodos());
     }

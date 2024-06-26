@@ -7,11 +7,17 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+
+    public List<Usuario> buscarTodos() {
+        return this.usuarioRepository.findAllByAtivoTrue();
+    }
 
     public Usuario buscarPorId(Integer usuarioId) {
         return this.usuarioRepository.findById(usuarioId).orElseThrow(

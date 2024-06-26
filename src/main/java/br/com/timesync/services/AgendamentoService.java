@@ -22,18 +22,33 @@ public class AgendamentoService {
     private final ServicoService servicoService;
     private final UsuarioService usuarioService;
 
+    public List<Agendamento> buscarTodos() {
+        return agendamentoRepository.findAllByAtivoTrue();
+    }
+
     public Agendamento buscarPorId(Integer id) {
         return this.agendamentoRepository.findById(id).orElseThrow(
                 () -> new ObjectNotFoundException(String.format("Id %s não encontrado", id)));
     }
 
     public Agendamento salvar(AgendamentoDTO agendamentoDTO) {
+        final Integer id = agendamentoDTO.id();
         final LocalDateTime dataChegada = agendamentoDTO.dataChegada();
         final List<Servico> servicos = getServicos(agendamentoDTO.idsServicos());
         final Usuario cliente = usuarioService.buscarPorId(agendamentoDTO.clienteId());
         final Usuario consumidor = usuarioService.buscarPorId(agendamentoDTO.consumidorId());
+        final Boolean ativo = agendamentoDTO.ativo();
 
-        final Agendamento agendamento = new Agendamento(dataChegada, getDataSaida(dataChegada, servicos), servicos, cliente, consumidor);
+        final Agendamento agendamento = new Agendamento(
+                id,
+                dataChegada,
+                getDataSaida(dataChegada, servicos),
+                servicos,
+                cliente,
+                consumidor,
+                ativo
+        );
+
         this.agendamentoRepository.save(agendamento);
         return agendamento;
     }

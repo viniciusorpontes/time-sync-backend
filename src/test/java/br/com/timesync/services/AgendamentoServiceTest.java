@@ -64,10 +64,12 @@ public class AgendamentoServiceTest {
     @DisplayName("Teste salvar agendamento com sucesso")
     public void testSalvarComSucesso() {
         final AgendamentoDTO agendamentoDTO = new AgendamentoDTO(
+                1,
                 LocalDateTime.now(),
                 Collections.singletonList(1),
                 1,
-                2
+                2,
+                Boolean.TRUE
         );
 
         final Usuario cliente = getCliente();
@@ -96,10 +98,10 @@ public class AgendamentoServiceTest {
         return new Agendamento(1,
                 dataAtual,
                 dataAtual.plusHours(1),
-                Boolean.TRUE,
                 Collections.singletonList(servico),
                 cliente,
-                consumidor
+                consumidor,
+                Boolean.TRUE
         );
     }
 

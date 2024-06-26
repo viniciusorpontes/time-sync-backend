@@ -16,7 +16,7 @@ public class ServicoService {
     private final ServicoRepository servicoRespository;
 
     public List<Servico> buscarTodos() {
-        return this.servicoRespository.findAll();
+        return this.servicoRespository.findAllByAtivoTrue();
     }
 
     public Servico buscarPorId(Integer id) {
