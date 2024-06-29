@@ -1,6 +1,6 @@
 package br.com.timesync.services;
 
-import br.com.timesync.entities.Usuario;
+import br.com.timesync.entities.Usuarios;
 import br.com.timesync.exceptions.ObjectNotFoundException;
 import br.com.timesync.repositories.UsuarioRepository;
 import lombok.AllArgsConstructor;
@@ -12,17 +12,17 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
 
-    public Usuario buscarPorId(Integer usuarioId) {
+    public Usuarios buscarPorId(Integer usuarioId) {
         return this.usuarioRepository.findById(usuarioId).orElseThrow(
                 () -> new ObjectNotFoundException(String.format("Id %s não encontrado", usuarioId)));
     }
 
-    public Usuario buscarPorEmail(String email) {
-        return (Usuario) this.usuarioRepository.findByEmail(email).orElseThrow(
+    public Usuarios buscarPorEmail(String email) {
+        return (Usuarios) this.usuarioRepository.findByEmail(email).orElseThrow(
                 () -> new ObjectNotFoundException(String.format("Email %s não encontrado", email)));
     }
 
-    public Usuario salvar(Usuario usuario) {
+    public Usuarios salvar(Usuarios usuario) {
         return usuarioRepository.save(usuario);
     }
 

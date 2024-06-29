@@ -2,8 +2,8 @@ package br.com.timesync.controllers;
 
 import br.com.timesync.dto.AgendamentoDTO;
 import br.com.timesync.entities.Agendamento;
-import br.com.timesync.entities.Servico;
-import br.com.timesync.entities.Usuario;
+import br.com.timesync.entities.Servicos;
+import br.com.timesync.entities.Usuarios;
 import br.com.timesync.enums.UsuarioEnum;
 import br.com.timesync.services.AgendamentoService;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,6 +22,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Collections;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -71,9 +72,9 @@ public class AgendamentoControllerTest {
     }
 
     private static Agendamento getAgendamento() {
-        final Servico servico = getServico();
-        final Usuario cliente = getCliente();
-        final Usuario consumidor = getConsumidor();
+        final Servicos servico = getServico();
+        final Usuarios cliente = getCliente();
+        final Usuarios consumidor = getConsumidor();
 
         final LocalDateTime dataAtual = LocalDateTime.now();
 
@@ -87,18 +88,18 @@ public class AgendamentoControllerTest {
         );
     }
 
-    private static Servico getServico() {
-        return new Servico(1,
+    private static Servicos getServico() {
+        return new Servicos(1,
                 "Corte de Cabelo",
                 LocalTime.of(1, 0),
                 new BigDecimal("35"),
                 Boolean.TRUE,
-                getCliente().getId()
+                getServico().getUsuarioId(), List.of()
         );
     }
 
-    private static Usuario getCliente() {
-        return new Usuario(1,
+    private static Usuarios getCliente() {
+        return new Usuarios(1,
                 "123.456.789-10",
                 "Vinicius",
                 "vinicius@email.com",
@@ -109,8 +110,8 @@ public class AgendamentoControllerTest {
         );
     }
 
-    private static Usuario getConsumidor() {
-        return new Usuario(2,
+    private static Usuarios getConsumidor() {
+        return new Usuarios(2,
                 "123.456.789-11",
                 "Matheus",
                 "matheus@email.com",

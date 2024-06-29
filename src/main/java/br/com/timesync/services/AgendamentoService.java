@@ -2,8 +2,8 @@ package br.com.timesync.services;
 
 import br.com.timesync.dto.AgendamentoDTO;
 import br.com.timesync.entities.Agendamento;
-import br.com.timesync.entities.Servico;
-import br.com.timesync.entities.Usuario;
+import br.com.timesync.entities.Servicos;
+import br.com.timesync.entities.Usuarios;
 import br.com.timesync.exceptions.ObjectNotFoundException;
 import br.com.timesync.repositories.AgendamentoRepository;
 import lombok.AllArgsConstructor;
@@ -29,9 +29,9 @@ public class AgendamentoService {
 
     public Agendamento salvar(AgendamentoDTO agendamentoDTO) {
         final LocalDateTime dataChegada = agendamentoDTO.getDataChegada();
-        final List<Servico> servicos = getServicos(agendamentoDTO.getIdsServicos());
-        final Usuario cliente = usuarioService.buscarPorId(agendamentoDTO.getClienteId());
-        final Usuario consumidor = usuarioService.buscarPorId(agendamentoDTO.getConsumidorId());
+        final List<Servicos> servicos = getServicos(agendamentoDTO.getIdsServicos());
+        final Usuarios cliente = usuarioService.buscarPorId(agendamentoDTO.getClienteId());
+        final Usuarios consumidor = usuarioService.buscarPorId(agendamentoDTO.getConsumidorId());
 
         final Agendamento agendamento = new Agendamento(dataChegada, getDataSaida(dataChegada, servicos), servicos, cliente, consumidor);
         this.agendamentoRepository.save(agendamento);
@@ -39,7 +39,7 @@ public class AgendamentoService {
     }
 
     /** Função que recebe uma lista de ids de Servicos como parâmetro e retorna uma lista de Servicos */
-    private List<Servico> getServicos(List<Integer> idsServicos) {
+    private List<Servicos> getServicos(List<Integer> idsServicos) {
         return new ArrayList<>(idsServicos
                 .stream()
                 .map(servicoService::buscarPorId)
@@ -47,7 +47,7 @@ public class AgendamentoService {
         );
     }
 
-    private LocalDateTime getDataSaida(LocalDateTime dataChegada, List<Servico> servicos) {
+    private LocalDateTime getDataSaida(LocalDateTime dataChegada, List<Servicos> servicos) {
         final Duration duracaoServicos = servicoService.calcularDuracaoServicos(servicos);
         return dataChegada.plusMinutes(duracaoServicos.toMinutes());
     }

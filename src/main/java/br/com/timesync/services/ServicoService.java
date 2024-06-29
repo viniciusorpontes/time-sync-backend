@@ -1,6 +1,6 @@
 package br.com.timesync.services;
 
-import br.com.timesync.entities.Servico;
+import br.com.timesync.entities.Servicos;
 import br.com.timesync.exceptions.ObjectNotFoundException;
 import br.com.timesync.repositories.ServicoRepository;
 import lombok.AllArgsConstructor;
@@ -15,26 +15,26 @@ public class ServicoService {
 
     private final ServicoRepository servicoRespository;
 
-    public List<Servico> buscarTodos() {
+    public List<Servicos> buscarTodos() {
         return this.servicoRespository.findAll();
     }
 
-    public Servico buscarPorId(Integer id) {
+    public Servicos buscarPorId(Integer id) {
         return this.servicoRespository.findById(id).orElseThrow(
                 () -> new ObjectNotFoundException(String.format("Id %s não encontrado", id)));
     }
 
-    public List<Servico> buscarServicosPorUsuarioId(Integer IdUsuario) {
+    public List<Servicos> buscarServicosPorUsuarioId(Integer IdUsuario) {
         return this.servicoRespository.findByUsuarioId(IdUsuario);
     }
 
-    public Servico salvar(Servico servico) {
+    public Servicos salvar(Servicos servico) {
         return servicoRespository.save(servico);
     }
 
-    public Duration calcularDuracaoServicos(List<Servico> servicos) {
+    public Duration calcularDuracaoServicos(List<Servicos> servicos) {
         return servicos.stream()
-                .map(Servico::getTempo) //Transformando uma lista de Servicos em uma lista de tempos de serviços
+                .map(Servicos::getTempo) //Transformando uma lista de Servicos em uma lista de tempos de serviços
                 .map(tempoServico -> Duration.ofHours(tempoServico.getHour()).plusMinutes(tempoServico.getMinute())) //Transformando tempo de serviços (que está em hora) em uma Duration
                 .reduce(Duration.ZERO, Duration::plus); //Somando as Durations
     }

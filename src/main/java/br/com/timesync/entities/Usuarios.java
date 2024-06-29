@@ -12,7 +12,7 @@ import java.util.Objects;
 @Setter
 @ToString
 @Entity
-public class Usuario {
+public class Usuarios {
 
     @Id
     @Column(name = "id", nullable = false)
@@ -44,7 +44,7 @@ public class Usuario {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Usuario usuario = (Usuario) o;
+        Usuarios usuario = (Usuarios) o;
         return Objects.equals(id, usuario.id);
     }
 

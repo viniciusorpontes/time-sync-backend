@@ -1,6 +1,6 @@
 package br.com.timesync.controllers;
 
-import br.com.timesync.entities.Servico;
+import br.com.timesync.entities.Servicos;
 import br.com.timesync.services.ServicoService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,22 +18,22 @@ public class ServicoController {
     private final ServicoService servicoService;
 
     @GetMapping
-    public ResponseEntity<List<Servico>> buscarTodos() {
+    public ResponseEntity<List<Servicos>> buscarTodos() {
         return ResponseEntity.ok().body(this.servicoService.buscarTodos());
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Servico> buscarPorId(@PathVariable Integer id) {
+    public ResponseEntity<Servicos> buscarPorId(@PathVariable Integer id) {
         return ResponseEntity.ok().body(servicoService.buscarPorId(id));
     }
 
     @GetMapping("/buscarServicosPorUsuarioId")
-    public ResponseEntity<List<Servico>> buscarServicosPorUsuarioId(@RequestParam Integer usuarioId) {
+    public ResponseEntity<List<Servicos>> buscarServicosPorUsuarioId(@RequestParam Integer usuarioId) {
         return ResponseEntity.ok().body(servicoService.buscarServicosPorUsuarioId(usuarioId));
     }
 
     @PostMapping
-    public ResponseEntity<Servico> salvar(@RequestBody Servico servico) {
+    public ResponseEntity<Servicos> salvar(@RequestBody Servicos servico) {
         servico = this.servicoService.salvar(servico);
         final URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(servico.getId()).toUri();
         return ResponseEntity.created(uri).body(servico);

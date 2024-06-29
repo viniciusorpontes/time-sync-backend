@@ -1,6 +1,6 @@
 package br.com.timesync.controllers;
 
-import br.com.timesync.entities.Usuario;
+import br.com.timesync.entities.Usuarios;
 import br.com.timesync.services.UsuarioService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +17,11 @@ public class UsuarioController {
     private final UsuarioService usuarioSevice;
 
     @GetMapping("/buscarPorEmail")
-    public ResponseEntity<Usuario> buscarPorEmail(@RequestParam String email) {
+    public ResponseEntity<Usuarios> buscarPorEmail(@RequestParam String email) {
         return ResponseEntity.ok().body(usuarioSevice.buscarPorEmail(String.valueOf(email)));
     }
     @PostMapping
-    public ResponseEntity<Usuario> salvar(@RequestBody Usuario usuario) {
+    public ResponseEntity<Usuarios> salvar(@RequestBody Usuarios usuario) {
         usuario = this.usuarioSevice.salvar(usuario);
         final URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(usuario.getId()).toUri();
         return ResponseEntity.created(uri).body(usuario);

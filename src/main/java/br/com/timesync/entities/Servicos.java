@@ -5,6 +5,8 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @NoArgsConstructor
@@ -13,7 +15,7 @@ import java.util.Objects;
 @Setter
 @ToString
 @Entity
-public class Servico {
+public class Servicos {
 
     @Id
     @Column(name = "id", nullable = false)
@@ -35,10 +37,19 @@ public class Servico {
     @Column(name = "usuario_id", nullable = false)
     private Integer usuarioId;
 
+    @ManyToMany
+    @JoinTable(
+            name = "servico_usuario",
+            joinColumns = @JoinColumn(name = "servico_id"),
+            inverseJoinColumns = @JoinColumn(name = "usuario_id")
+        )
+        private List<Usuarios> usuarios = new ArrayList<>();
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Servico servico)) return false;
+        if (!(o instanceof Servicos servico)) return false;
         return Objects.equals(id, servico.id);
     }
 
