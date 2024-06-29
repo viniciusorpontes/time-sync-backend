@@ -16,7 +16,7 @@ import java.util.Objects;
 @Entity
 public class Agendamento {
 
-    public Agendamento(LocalDateTime dataChegada, LocalDateTime dataSaida, List<Servico> servicos, Usuario cliente, Usuario consumidor) {
+    public Agendamento(LocalDateTime dataChegada, LocalDateTime dataSaida, List<Servicos> servicos, Usuarios cliente, Usuarios consumidor) {
         this.dataChegada = dataChegada;
         this.dataSaida = dataSaida;
         this.ativo = Boolean.TRUE;
@@ -45,15 +45,15 @@ public class Agendamento {
             inverseJoinColumns = @JoinColumn(name = "servico_id")
     )
     @ToString.Exclude
-    private List<Servico> servicos = new ArrayList<>();
+    private List<Servicos> servicos = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "cliente_id")
-    private Usuario cliente;
+    private Usuarios cliente;
 
     @ManyToOne
     @JoinColumn(name = "consumidor_id")
-    private Usuario consumidor;
+    private Usuarios consumidor;
 
     @Override
     public boolean equals(Object o) {
