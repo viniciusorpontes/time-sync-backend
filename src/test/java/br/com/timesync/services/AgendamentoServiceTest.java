@@ -109,7 +109,7 @@ public class AgendamentoServiceTest {
                 LocalTime.of(1, 0),
                 new BigDecimal("35"),
                 Boolean.TRUE,
-                getCliente().getId()
+                Collections.singletonList(getCliente())
         );
     }
 
