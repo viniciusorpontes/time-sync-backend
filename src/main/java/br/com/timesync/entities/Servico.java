@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Objects;
 
 @NoArgsConstructor
@@ -33,8 +34,13 @@ public class Servico {
     @Column(name = "ativo", nullable = false)
     private Boolean ativo;
 
-    @Column(name = "usuario_id", nullable = false)
-    private Integer usuarioId;
+    @ManyToMany
+    @JoinTable(name = "servicos_usuarios",
+            joinColumns = @JoinColumn(name = "servico_id"),
+            inverseJoinColumns = @JoinColumn(name = "usuario_id")
+    )
+    @ToString.Exclude
+    private List<Usuario> usuarios;
 
     @Override
     public boolean equals(Object o) {
