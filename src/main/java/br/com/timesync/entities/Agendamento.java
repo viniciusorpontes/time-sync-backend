@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -46,7 +45,7 @@ public class Agendamento {
             inverseJoinColumns = @JoinColumn(name = "servico_id")
     )
     @ToString.Exclude
-    private List<Servico> servicos = new ArrayList<>();
+    private List<Servico> servicos;
 
     @ManyToOne
     @JoinColumn(name = "cliente_id")
