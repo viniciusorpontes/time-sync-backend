@@ -106,8 +106,8 @@ public class AgendamentoControllerTest {
                 "Vinicius",
                 "vinicius@email.com",
                 "14998124578",
-                "123456",
                 UsuarioEnum.CLIENTE,
+                "123456",
                 Boolean.TRUE
         );
     }
@@ -118,8 +118,8 @@ public class AgendamentoControllerTest {
                 "Matheus",
                 "matheus@email.com",
                 "14998124579",
-                "123456",
                 UsuarioEnum.CONSUMIDOR,
+                "123456",
                 Boolean.TRUE
         );
     }

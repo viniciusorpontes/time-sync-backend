@@ -1,5 +1,6 @@
 package br.com.timesync.entities;
 
+import br.com.timesync.dto.SalvarOuAlterarUsuarioDTO;
 import br.com.timesync.enums.UsuarioEnum;
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,10 +21,19 @@ import java.util.Objects;
 @Table(name = "usuarios")
 public class Usuario implements UserDetails {
 
+    public Usuario(SalvarOuAlterarUsuarioDTO dto) {
+        this.cpf = dto.cpf();
+        this.nome = dto.nome();
+        this.email = dto.email();
+        this.telefone = dto.telefone();
+        this.tipo = dto.tipo();
+        this.senha = dto.senha();
+    }
+
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  Integer id;
+    private Integer id;
 
     @Column(name = "cpf", nullable = false)
     private String cpf;
@@ -37,14 +47,14 @@ public class Usuario implements UserDetails {
     @Column(name = "telefone", nullable = false)
     private String telefone;
 
-    @Column(name = "senha", nullable = false)
-    private String senha;
-
     @Column(name = "tipo", nullable = false)
     private UsuarioEnum tipo;
 
+    @Column(name = "senha", nullable = false)
+    private String senha;
+
     @Column(name = "ativo", nullable = false)
-    private Boolean ativo;
+    private Boolean ativo = Boolean.TRUE;
 
     @Override
     public boolean equals(Object o) {
