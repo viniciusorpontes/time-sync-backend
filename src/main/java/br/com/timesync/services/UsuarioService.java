@@ -1,6 +1,5 @@
 package br.com.timesync.services;
 
-import br.com.timesync.dto.SalvarOuAlterarUsuarioDTO;
 import br.com.timesync.entities.Usuario;
 import br.com.timesync.exceptions.ObjectNotFoundException;
 import br.com.timesync.repositories.UsuarioRepository;
