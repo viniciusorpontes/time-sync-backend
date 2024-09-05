@@ -35,7 +35,8 @@ public class UsuarioController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Usuario> atualizar(@PathVariable Integer id, @RequestBody SalvarOuAlterarUsuarioDTO usuarioDTO) {
-        final Usuario usuario = this.usuarioSevice.alterar(id, usuarioDTO);
+        Usuario usuario = usuarioDTO.toEntity();
+        usuario = this.usuarioSevice.alterar(id, usuario);
         return ResponseEntity.ok().body(usuario);
     }
 

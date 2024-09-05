@@ -27,12 +27,10 @@ public class UsuarioService {
         return this.usuarioRepository.save(usuario);
     }
 
-    public Usuario alterar(Integer id, SalvarOuAlterarUsuarioDTO usuarioDTO) {
+    public Usuario alterar(Integer id, Usuario usuario) {
         buscarPorId(id);
-        Usuario usuario = usuarioDTO.toEntity();
         usuario.setId(id);
         return this.salvar(usuario);
-
     }
 
     public void deletar(Integer id) {
