@@ -27,16 +27,14 @@ public class UsuarioController {
 
     @PostMapping
     public ResponseEntity<Usuario> salvar(@RequestBody SalvarOuAlterarUsuarioDTO usuarioDTO) {
-        Usuario usuario = usuarioDTO.toEntity();
-        usuario = this.usuarioSevice.salvar(usuario);
+        final Usuario usuario = this.usuarioSevice.salvar(usuarioDTO);
         final URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(usuario.getId()).toUri();
         return ResponseEntity.created(uri).body(usuario);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Usuario> atualizar(@PathVariable Integer id, @RequestBody SalvarOuAlterarUsuarioDTO usuarioDTO) {
-        Usuario usuario = usuarioDTO.toEntity();
-        usuario = this.usuarioSevice.alterar(id, usuario);
+        final Usuario usuario = this.usuarioSevice.alterar(id, usuarioDTO);
         return ResponseEntity.ok().body(usuario);
     }
 

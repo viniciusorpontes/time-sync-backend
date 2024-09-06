@@ -1,5 +1,6 @@
 package br.com.timesync.services;
 
+import br.com.timesync.dto.SalvarOuAlterarUsuarioDTO;
 import br.com.timesync.entities.Usuario;
 import br.com.timesync.exceptions.ObjectNotFoundException;
 import br.com.timesync.repositories.UsuarioRepository;
@@ -22,14 +23,16 @@ public class UsuarioService {
         return this.usuarioRepository.findByEmail(email);
     }
 
-    public Usuario salvar(Usuario usuario) {
-        return this.usuarioRepository.save(usuario);
+    public Usuario salvar(SalvarOuAlterarUsuarioDTO usuarioDTO) {
+        return this.usuarioRepository.save(usuarioDTO.toEntity());
     }
 
-    public Usuario alterar(Integer id, Usuario usuario) {
+    public Usuario alterar(Integer id, SalvarOuAlterarUsuarioDTO usuarioDTO) {
         buscarPorId(id);
+        final Usuario usuario;
+        usuario = usuarioDTO.toEntity();
         usuario.setId(id);
-        return this.salvar(usuario);
+        return this.usuarioRepository.save(usuario);
     }
 
     public void deletar(Integer id) {
