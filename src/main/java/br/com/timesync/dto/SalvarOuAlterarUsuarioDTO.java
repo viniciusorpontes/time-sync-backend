@@ -6,7 +6,14 @@ import br.com.timesync.enums.UsuarioEnum;
 public record SalvarOuAlterarUsuarioDTO(String cpf, String nome, String email, String telefone, UsuarioEnum tipo, String senha) {
 
     public Usuario toEntity() {
-        return new Usuario(this);
+        final Usuario usuario = new Usuario();
+        usuario.setCpf(cpf);
+        usuario.setNome(nome);
+        usuario.setEmail(email);
+        usuario.setTelefone(telefone);
+        usuario.setTipo(tipo);
+        usuario.setSenha(senha);
+        return usuario;
     }
 
 }

@@ -2,7 +2,6 @@ package br.com.timesync.dto;
 
 import br.com.timesync.entities.Usuario;
 import br.com.timesync.enums.UsuarioEnum;
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
