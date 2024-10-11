@@ -1,5 +1,7 @@
 package br.com.timesync.controllers;
 
+import br.com.timesync.dto.BuscarServicoDTO;
+import br.com.timesync.dto.SalvarOuAlterarServicoDTO;
 import br.com.timesync.entities.Servico;
 import br.com.timesync.services.ServicoService;
 import lombok.AllArgsConstructor;
@@ -13,30 +15,42 @@ import java.util.List;
 @RestController
 @RequestMapping("/servicos")
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class ServicoController {
 
     private final ServicoService servicoService;
 
-    @GetMapping
-    public ResponseEntity<List<Servico>> buscarTodos() {
-        return ResponseEntity.ok().body(this.servicoService.buscarTodos());
+    @GetMapping("/{id}")
+    public ResponseEntity<BuscarServicoDTO> buscarPorId(@PathVariable Integer id) {
+        final Servico servico = servicoService.buscarPorId(id);
+        final BuscarServicoDTO dto = BuscarServicoDTO.toDTO(servico);
+        return ResponseEntity.ok().body(dto);
     }
 
-    @GetMapping("/buscarPorId")
-    public ResponseEntity<Servico> buscarPorId(@RequestParam Integer id) {
-        return ResponseEntity.ok().body(servicoService.buscarPorId(id));
-    }
-
-    @GetMapping("/buscarServicosPorUsuarioId")
-    public ResponseEntity<List<Servico>> buscarServicosPorUsuarioId(@RequestParam Integer usuarioId) {
-        return ResponseEntity.ok().body(servicoService.buscarServicosPorUsuarioId(usuarioId));
-    }
-
-    @PostMapping("/salvar")
-    public ResponseEntity<Servico> salvar(@RequestBody Servico servico) {
-        servico = this.servicoService.salvar(servico);
+    @PostMapping
+    public ResponseEntity<Void> salvar(@RequestBody SalvarOuAlterarServicoDTO servicoDTO) {
+        final Servico servico = this.servicoService.salvar(servicoDTO);
         final URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(servico.getId()).toUri();
-        return ResponseEntity.created(uri).body(servico);
+        return ResponseEntity.created(uri).build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> atualizar(@PathVariable Integer id, @RequestBody SalvarOuAlterarServicoDTO servicoDTO) {
+        this.servicoService.alterar(id, servicoDTO);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Integer id) {
+        this.servicoService.deletar(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/buscarServicosPorUsarioId")
+    public ResponseEntity<List<BuscarServicoDTO>> buscarServicosPorUsarioId(@RequestParam Integer usuarioId) {
+        final var servicos = servicoService.buscarServicosPorUsarioId(usuarioId);
+        final var servicosDTO = servicos.stream().map(BuscarServicoDTO::toDTO).toList();
+        return ResponseEntity.ok().body(servicosDTO);
     }
 
 }

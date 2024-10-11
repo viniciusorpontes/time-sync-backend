@@ -1,6 +1,8 @@
 package br.com.timesync.services;
 
+import br.com.timesync.dto.SalvarOuAlterarServicoDTO;
 import br.com.timesync.entities.Servico;
+import br.com.timesync.entities.Usuario;
 import br.com.timesync.exceptions.ObjectNotFoundException;
 import br.com.timesync.repositories.ServicoRepository;
 import lombok.AllArgsConstructor;
@@ -14,22 +16,31 @@ import java.util.List;
 public class ServicoService {
 
     private final ServicoRepository servicoRespository;
-
-    public List<Servico> buscarTodos() {
-        return this.servicoRespository.findAll();
-    }
+    private final UsuarioService usuarioService;
 
     public Servico buscarPorId(Integer id) {
         return this.servicoRespository.findById(id).orElseThrow(
                 () -> new ObjectNotFoundException(String.format("Id %s não encontrado", id)));
     }
 
-    public List<Servico> buscarServicosPorUsuarioId(Integer IdUsuario) {
-        return this.servicoRespository.findByUsuarioId(IdUsuario);
+    public Servico salvar(SalvarOuAlterarServicoDTO servicoDTO) {
+        final List<Usuario> usuarios = usuarioService.buscarUsuariosPorIds(servicoDTO.idsUsuarios());
+        final Servico servico = servicoDTO.toEntity(usuarios);
+        return servicoRespository.save(servico);
     }
 
-    public Servico salvar(Servico servico) {
-        return servicoRespository.save(servico);
+    public void alterar(Integer id, SalvarOuAlterarServicoDTO servicoDTO) {
+        buscarPorId(id);
+        final List<Usuario> usuarios = usuarioService.buscarUsuariosPorIds(servicoDTO.idsUsuarios());
+        final Servico servico = servicoDTO.toEntity(usuarios);
+        servico.setId(id);
+        servicoRespository.save(servico);
+    }
+
+    public void deletar(Integer id) {
+        final Servico servico = buscarPorId(id);
+        servico.setAtivo(false);
+        this.servicoRespository.save(servico);
     }
 
     public Duration calcularDuracaoServicos(List<Servico> servicos) {
@@ -38,4 +49,9 @@ public class ServicoService {
                 .map(tempoServico -> Duration.ofHours(tempoServico.getHour()).plusMinutes(tempoServico.getMinute())) //Transformando tempo de serviços (que está em hora) em uma Duration
                 .reduce(Duration.ZERO, Duration::plus); //Somando as Durations
     }
+
+    public List<Servico> buscarServicosPorUsarioId(Integer usuarioId) {
+        return this.servicoRespository.findAllByUsuarioIdAndAtivo(usuarioId);
+    }
+
 }

@@ -31,16 +31,16 @@ public class Servico {
     @Column(name = "valor", nullable = false, scale = 2)
     private BigDecimal valor;
 
-    @Column(name = "ativo", nullable = false)
-    private Boolean ativo;
-
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "servicos_usuarios",
             joinColumns = @JoinColumn(name = "servico_id"),
             inverseJoinColumns = @JoinColumn(name = "usuario_id")
     )
     @ToString.Exclude
     private List<Usuario> usuarios;
+
+    @Column(name = "ativo", nullable = false)
+    private Boolean ativo;
 
     @Override
     public boolean equals(Object o) {
