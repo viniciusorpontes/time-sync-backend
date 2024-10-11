@@ -33,7 +33,7 @@ public class SecurityFilter extends OncePerRequestFilter {
             // Busca o e-mail do usuário que está tentando logar na aplicação
             var emailUsuarioLogin = tokenService.getEmailUsuarioLogin(tokenJWT);
             // Busca o Usuario por email
-            var usuario = usuarioService.buscarUsuarioPorEmail(emailUsuarioLogin);
+            var usuario = usuarioService.buscarUserDetailsPorEmail(emailUsuarioLogin);
             // Caso o usuário seja encontrado, autentica o usuário
             var authentication = new UsernamePasswordAuthenticationToken(usuario, null, null);
             // Seta o Usuario como autenticado

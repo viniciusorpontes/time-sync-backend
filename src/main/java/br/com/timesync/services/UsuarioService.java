@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class UsuarioService {
@@ -19,20 +21,27 @@ public class UsuarioService {
                 () -> new ObjectNotFoundException(String.format("Id %s não encontrado", usuarioId)));
     }
 
-    public UserDetails buscarUsuarioPorEmail(String email) {
-        return this.usuarioRepository.findByEmail(email);
+    public List<Usuario> buscarUsuariosPorIds(List<Integer> ids) {
+        return this.usuarioRepository.findAllById(ids);
+    }
+
+    public List<Usuario> buscarClientes() {
+        return this.usuarioRepository.buscarClientes();
+    }
+
+    public UserDetails buscarUserDetailsPorEmail(String email) {
+        return this.usuarioRepository.findUserDetailsByEmail(email);
     }
 
     public Usuario salvar(SalvarOuAlterarUsuarioDTO usuarioDTO) {
         return this.usuarioRepository.save(usuarioDTO.toEntity());
     }
 
-    public Usuario alterar(Integer id, SalvarOuAlterarUsuarioDTO usuarioDTO) {
+    public void alterar(Integer id, SalvarOuAlterarUsuarioDTO salvarOuAlterarUsuarioDTO) {
         buscarPorId(id);
-        final Usuario usuario;
-        usuario = usuarioDTO.toEntity();
+        final Usuario usuario = salvarOuAlterarUsuarioDTO.toEntity();
         usuario.setId(id);
-        return this.usuarioRepository.save(usuario);
+        this.usuarioRepository.save(usuario);
     }
 
     public void deletar(Integer id) {
@@ -40,4 +49,5 @@ public class UsuarioService {
         usuario.setAtivo(false);
         this.usuarioRepository.save(usuario);
     }
+
 }

@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/usuarios")
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class UsuarioController {
 
     private final UsuarioService usuarioSevice;
@@ -25,6 +27,13 @@ public class UsuarioController {
         return ResponseEntity.ok().body(dto);
     }
 
+    @GetMapping("/buscarClientes")
+    public ResponseEntity<List<BuscarUsuarioDTO>> buscarClientes() {
+        final var usuarios = usuarioSevice.buscarClientes();
+        final var usuariosDTO = usuarios.stream().map(BuscarUsuarioDTO::toDTO).toList();
+        return ResponseEntity.ok().body(usuariosDTO);
+    }
+
     @PostMapping
     public ResponseEntity<Usuario> salvar(@RequestBody SalvarOuAlterarUsuarioDTO usuarioDTO) {
         final Usuario usuario = this.usuarioSevice.salvar(usuarioDTO);
@@ -33,8 +42,8 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> atualizar(@PathVariable Integer id, @RequestBody SalvarOuAlterarUsuarioDTO usuarioDTO) {
-        this.usuarioSevice.alterar(id, usuarioDTO);
+    public ResponseEntity<Void> atualizar(@PathVariable Integer id, @RequestBody SalvarOuAlterarUsuarioDTO salvarOuAlterarUsuarioDTO) {
+        this.usuarioSevice.alterar(id, salvarOuAlterarUsuarioDTO);
         return ResponseEntity.noContent().build();
     }
 
