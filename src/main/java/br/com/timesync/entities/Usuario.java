@@ -23,7 +23,7 @@ public class Usuario implements UserDetails {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  Integer id;
+    private Integer id;
 
     @Column(name = "cpf", nullable = false)
     private String cpf;
@@ -37,14 +37,14 @@ public class Usuario implements UserDetails {
     @Column(name = "telefone", nullable = false)
     private String telefone;
 
-    @Column(name = "senha", nullable = false)
-    private String senha;
-
     @Column(name = "tipo", nullable = false)
     private UsuarioEnum tipo;
 
+    @Column(name = "senha", nullable = false)
+    private String senha;
+
     @Column(name = "ativo", nullable = false)
-    private Boolean ativo;
+    private Boolean ativo = Boolean.TRUE;
 
     @Override
     public boolean equals(Object o) {

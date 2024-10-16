@@ -1,4 +1,4 @@
 package br.com.timesync.dto;
 
-public record LoginResponseDTO(String token) {
+public record LoginResponseDTO(String token, BuscarUsuarioDTO usuario) {
 }

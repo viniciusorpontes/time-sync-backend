@@ -13,8 +13,9 @@ public interface ServicoRepository extends JpaRepository<Servico, Integer> {
 
     @Query(value = "SELECT * FROM servicos s " +
             "INNER JOIN servicos_usuarios su ON s.id = su.servico_id " +
-            "WHERE su.usuario_id = :usuario_id",
+            "WHERE su.usuario_id = :usuario_id " +
+            "  AND s.ativo IS TRUE",
             nativeQuery = true)
-    List<Servico> findByUsuarioId(@Param(value = "usuario_id") Integer usuario_id);
+    List<Servico> findAllByUsuarioIdAndAtivo(@Param(value = "usuario_id") Integer usuarioId);
 
 }

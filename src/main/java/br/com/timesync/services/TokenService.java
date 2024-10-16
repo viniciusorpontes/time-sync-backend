@@ -29,7 +29,7 @@ public class TokenService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return usuarioService.buscarUsuarioPorEmail(email);
+        return usuarioService.buscarUserDetailsPorEmail(email);
     }
 
     // Método responsável por gerar Tokens

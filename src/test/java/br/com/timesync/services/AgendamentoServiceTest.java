@@ -1,6 +1,6 @@
 package br.com.timesync.services;
 
-import br.com.timesync.dto.AgendamentoDTO;
+import br.com.timesync.dto.SalvarOuAlterarAgendamentoDTO;
 import br.com.timesync.entities.Agendamento;
 import br.com.timesync.entities.Servico;
 import br.com.timesync.entities.Usuario;
@@ -21,8 +21,7 @@ import java.util.Collections;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.anyInt;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class AgendamentoServiceTest {
@@ -63,7 +62,7 @@ public class AgendamentoServiceTest {
     @Test
     @DisplayName("Teste salvar agendamento com sucesso")
     public void testSalvarComSucesso() {
-        final AgendamentoDTO agendamentoDTO = new AgendamentoDTO(
+        final SalvarOuAlterarAgendamentoDTO salvarOuAlterarAgendamentoDTO = new SalvarOuAlterarAgendamentoDTO(
                 LocalDateTime.now(),
                 Collections.singletonList(1),
                 1,
@@ -74,11 +73,12 @@ public class AgendamentoServiceTest {
         final Usuario consumidor = getConsumidor();
         final Servico servico = getServico();
 
-        when(usuarioService.buscarPorId(agendamentoDTO.clienteId())).thenReturn(cliente);
-        when(usuarioService.buscarPorId(agendamentoDTO.consumidorId())).thenReturn(consumidor);
+        when(usuarioService.buscarPorId(salvarOuAlterarAgendamentoDTO.clienteId())).thenReturn(cliente);
+        when(usuarioService.buscarPorId(salvarOuAlterarAgendamentoDTO.consumidorId())).thenReturn(consumidor);
         when(servicoService.buscarPorId(anyInt())).thenReturn(servico);
+        when(agendamentoRepository.save(any())).thenReturn(getAgendamento());
 
-        final Agendamento resultadoAgendamento = agendamentoService.salvar(agendamentoDTO);
+        final Agendamento resultadoAgendamento = agendamentoService.salvar(salvarOuAlterarAgendamentoDTO);
 
         assertNotNull(resultadoAgendamento);
         assertEquals(cliente, resultadoAgendamento.getCliente());
@@ -108,8 +108,8 @@ public class AgendamentoServiceTest {
                 "Corte de Cabelo",
                 LocalTime.of(1, 0),
                 new BigDecimal("35"),
-                Boolean.TRUE,
-                Collections.singletonList(getCliente())
+                Collections.singletonList(getCliente()),
+                Boolean.TRUE
         );
     }
 
@@ -119,8 +119,8 @@ public class AgendamentoServiceTest {
                 "Vinicius",
                 "vinicius@email.com",
                 "14998124578",
-                "123456",
                 UsuarioEnum.CLIENTE,
+                "123456",
                 Boolean.TRUE
         );
     }
@@ -131,8 +131,8 @@ public class AgendamentoServiceTest {
                 "Matheus",
                 "matheus@email.com",
                 "14998124579",
-                "123456",
                 UsuarioEnum.CONSUMIDOR,
+                "123456",
                 Boolean.TRUE
         );
     }

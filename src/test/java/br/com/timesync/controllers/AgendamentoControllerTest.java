@@ -1,6 +1,7 @@
 package br.com.timesync.controllers;
 
-import br.com.timesync.dto.AgendamentoDTO;
+import br.com.timesync.dto.BuscarAgendamentoDTO;
+import br.com.timesync.dto.SalvarOuAlterarAgendamentoDTO;
 import br.com.timesync.entities.Agendamento;
 import br.com.timesync.entities.Servico;
 import br.com.timesync.entities.Usuario;
@@ -48,29 +49,31 @@ public class AgendamentoControllerTest {
     public void testeBuscarPorIdComSucesso() {
 
         final Agendamento agendamento = getAgendamento();
+        final BuscarAgendamentoDTO agendamentoDTO = getBuscarAgendamentoDTO(agendamento);
 
         when(agendamentoService.buscarPorId(1)).thenReturn(agendamento);
 
-        ResponseEntity<Agendamento> response = agendamentoController.buscarPorId(1);
+        ResponseEntity<BuscarAgendamentoDTO> response = agendamentoController.buscarPorId(1);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(agendamento, response.getBody());
+        assertEquals(agendamentoDTO, response.getBody());
     }
 
     @Test
     @DisplayName("Teste salvar agendamento com sucesso")
     public void testSalvarComSucesso() {
-        final AgendamentoDTO agendamentoDTO = mock(AgendamentoDTO.class);
+        final SalvarOuAlterarAgendamentoDTO salvarOuAlterarAgendamentoDTO = mock(SalvarOuAlterarAgendamentoDTO.class);
 
-        final Agendamento agendamento = new Agendamento();
-        agendamento.setId(1);
+        final Agendamento agendamento = getAgendamento();
 
-        when(agendamentoService.salvar(agendamentoDTO)).thenReturn(agendamento);
+        final BuscarAgendamentoDTO agendamentoDTO = getBuscarAgendamentoDTO(agendamento);
 
-        ResponseEntity<Agendamento> response = agendamentoController.salvar(agendamentoDTO);
+        when(agendamentoService.salvar(salvarOuAlterarAgendamentoDTO)).thenReturn(agendamento);
+
+        ResponseEntity<BuscarAgendamentoDTO> response = agendamentoController.salvar(salvarOuAlterarAgendamentoDTO);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals(agendamento, response.getBody());
+        assertEquals(agendamentoDTO, response.getBody());
     }
 
     private static Agendamento getAgendamento() {
@@ -90,13 +93,17 @@ public class AgendamentoControllerTest {
         );
     }
 
+    private BuscarAgendamentoDTO getBuscarAgendamentoDTO(Agendamento agendamento) {
+        return BuscarAgendamentoDTO.toDTO(agendamento);
+    }
+
     private static Servico getServico() {
         return new Servico(1,
                 "Corte de Cabelo",
                 LocalTime.of(1, 0),
                 new BigDecimal("35"),
-                Boolean.TRUE,
-                Collections.singletonList(getCliente())
+                Collections.singletonList(getCliente()),
+                Boolean.TRUE
         );
     }
 
@@ -106,8 +113,8 @@ public class AgendamentoControllerTest {
                 "Vinicius",
                 "vinicius@email.com",
                 "14998124578",
-                "123456",
                 UsuarioEnum.CLIENTE,
+                "123456",
                 Boolean.TRUE
         );
     }
@@ -118,8 +125,8 @@ public class AgendamentoControllerTest {
                 "Matheus",
                 "matheus@email.com",
                 "14998124579",
-                "123456",
                 UsuarioEnum.CONSUMIDOR,
+                "123456",
                 Boolean.TRUE
         );
     }
