@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
+public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     UserDetails findUserDetailsByEmail(String email);
 
@@ -18,4 +18,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
             "  AND s.ativo IS TRUE",
             nativeQuery = true)
     List<Usuario> buscarClientes();
+
+    Usuario findByEmail(String email);
+
 }

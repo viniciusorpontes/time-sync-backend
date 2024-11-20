@@ -28,11 +28,11 @@ public class BuscarAgendamentoDTO {
 
     private List<BuscarServicoDTO> servicos;
 
-    private Integer responsavelId;
+    private Long responsavelId;
 
     private String responsavelNome;
 
-    private Integer consumidorId;
+    private Long consumidorId;
 
     public static BuscarAgendamentoDTO toDTO(Agendamento agendamento) {
         final List<Servico> servicos = agendamento.getServicos();

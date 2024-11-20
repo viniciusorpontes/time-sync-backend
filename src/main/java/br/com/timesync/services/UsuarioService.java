@@ -16,12 +16,12 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
 
-    public Usuario buscarPorId(Integer usuarioId) {
+    public Usuario buscarPorId(Long usuarioId) {
         return this.usuarioRepository.findById(usuarioId).orElseThrow(
                 () -> new ObjectNotFoundException(String.format("Id %s não encontrado", usuarioId)));
     }
 
-    public List<Usuario> buscarUsuariosPorIds(List<Integer> ids) {
+    public List<Usuario> buscarUsuariosPorIds(List<Long> ids) {
         return this.usuarioRepository.findAllById(ids);
     }
 
@@ -33,18 +33,22 @@ public class UsuarioService {
         return this.usuarioRepository.findUserDetailsByEmail(email);
     }
 
+    public Usuario buscarUsuarioPorEmail(String email) {
+        return this.usuarioRepository.findByEmail(email);
+    }
+
     public Usuario salvar(SalvarOuAlterarUsuarioDTO usuarioDTO) {
         return this.usuarioRepository.save(usuarioDTO.toEntity());
     }
 
-    public void alterar(Integer id, SalvarOuAlterarUsuarioDTO salvarOuAlterarUsuarioDTO) {
+    public void alterar(Long id, SalvarOuAlterarUsuarioDTO salvarOuAlterarUsuarioDTO) {
         buscarPorId(id);
         final Usuario usuario = salvarOuAlterarUsuarioDTO.toEntity();
         usuario.setId(id);
         this.usuarioRepository.save(usuario);
     }
 
-    public void deletar(Integer id) {
+    public void deletar(Long id) {
         final Usuario usuario = buscarPorId(id);
         usuario.setAtivo(false);
         this.usuarioRepository.save(usuario);

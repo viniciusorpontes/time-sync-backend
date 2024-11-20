@@ -21,7 +21,7 @@ public class UsuarioController {
     private final UsuarioService usuarioSevice;
 
     @GetMapping("/{id}")
-    public ResponseEntity<BuscarUsuarioDTO> buscarPorId(@PathVariable Integer id) {
+    public ResponseEntity<BuscarUsuarioDTO> buscarPorId(@PathVariable Long id) {
         final Usuario usuario = usuarioSevice.buscarPorId(id);
         final BuscarUsuarioDTO dto = BuscarUsuarioDTO.toDTO(usuario);
         return ResponseEntity.ok().body(dto);
@@ -42,13 +42,13 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> atualizar(@PathVariable Integer id, @RequestBody SalvarOuAlterarUsuarioDTO salvarOuAlterarUsuarioDTO) {
+    public ResponseEntity<Void> atualizar(@PathVariable Long id, @RequestBody SalvarOuAlterarUsuarioDTO salvarOuAlterarUsuarioDTO) {
         this.usuarioSevice.alterar(id, salvarOuAlterarUsuarioDTO);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Integer id) {
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
         this.usuarioSevice.deletar(id);
         return ResponseEntity.noContent().build();
     }

@@ -9,7 +9,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class BuscarUsuarioDTO {
 
-    private Integer id;
+    private Long id;
 
     private String cpf;
 

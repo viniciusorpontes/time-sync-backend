@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,7 +24,7 @@ public class Usuario implements UserDetails {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "cpf", nullable = false)
     private String cpf;
@@ -45,6 +46,9 @@ public class Usuario implements UserDetails {
 
     @Column(name = "ativo", nullable = false)
     private Boolean ativo = Boolean.TRUE;
+
+    @OneToMany(mappedBy = "usuario")
+    private Set<EmpresaUsuario> usuarioEmpresas;
 
     @Override
     public boolean equals(Object o) {
