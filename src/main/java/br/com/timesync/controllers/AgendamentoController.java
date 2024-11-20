@@ -1,6 +1,6 @@
 package br.com.timesync.controllers;
 
-import br.com.timesync.dto.AlterarDataAgendamentoDTO;
+import br.com.timesync.dto.AlterarAgendamentoDTO;
 import br.com.timesync.dto.BuscarAgendamentoDTO;
 import br.com.timesync.dto.SalvarOuAlterarAgendamentoDTO;
 import br.com.timesync.entities.Agendamento;
@@ -27,9 +27,9 @@ public class AgendamentoController {
         return ResponseEntity.ok().body(BuscarAgendamentoDTO.toDTO(agendamento));
     }
 
-    @GetMapping("/buscarAgendamentosPorUsuariosIds")
-    public ResponseEntity<List<BuscarAgendamentoDTO>> buscarAgendamentosPorUsuariosIds(@RequestParam List<Integer> usuariosIds) {
-        return ResponseEntity.ok().body(agendamentoService.buscarAgendamentosPorUsuariosIds(usuariosIds));
+    @GetMapping("/buscarAgendamentosPorEmpresaId")
+    public ResponseEntity<List<BuscarAgendamentoDTO>> buscarAgendamentosPorEmpresaId(@RequestParam Long empresaId) {
+        return ResponseEntity.ok().body(agendamentoService.buscarAgendamentosPorEmpresaId(empresaId));
     }
 
     @PostMapping
@@ -46,8 +46,8 @@ public class AgendamentoController {
     }
 
     @PutMapping("/alterarDataAgendamento/{id}")
-    public ResponseEntity<BuscarAgendamentoDTO> alterarDataAgendamento(@PathVariable Integer id, @RequestBody AlterarDataAgendamentoDTO dto) {
-        final Agendamento agendamento = this.agendamentoService.alterarDataAgendamento(id, dto.dataChegada());
+    public ResponseEntity<BuscarAgendamentoDTO> alterarDataAgendamento(@PathVariable Integer id, @RequestBody AlterarAgendamentoDTO dto) {
+        final Agendamento agendamento = this.agendamentoService.alterarDataAgendamento(id, dto);
         return ResponseEntity.ok().body(BuscarAgendamentoDTO.toDTO(agendamento));
     }
 

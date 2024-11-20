@@ -42,6 +42,9 @@ public class Servico {
     @Column(name = "ativo", nullable = false)
     private Boolean ativo;
 
+    @ManyToOne
+    private Empresa empresa;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -16,7 +16,8 @@ import java.util.Objects;
 @Table(name = "agendamentos")
 public class Agendamento {
 
-    public Agendamento(LocalDateTime dataChegada, LocalDateTime dataSaida, List<Servico> servicos, Usuario cliente, Usuario consumidor) {
+    public Agendamento(Empresa empresa, LocalDateTime dataChegada, LocalDateTime dataSaida, List<Servico> servicos, Usuario cliente, Usuario consumidor) {
+        this.empresa = empresa;
         this.dataChegada = dataChegada;
         this.dataSaida = dataSaida;
         this.ativo = Boolean.TRUE;
@@ -54,6 +55,10 @@ public class Agendamento {
     @ManyToOne
     @JoinColumn(name = "consumidor_id")
     private Usuario consumidor;
+
+    @ManyToOne
+    @JoinColumn(name = "empresa_id")
+    private Empresa empresa;
 
     @Override
     public boolean equals(Object o) {

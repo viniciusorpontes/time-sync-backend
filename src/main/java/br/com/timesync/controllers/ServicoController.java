@@ -53,4 +53,18 @@ public class ServicoController {
         return ResponseEntity.ok().body(servicosDTO);
     }
 
+    @GetMapping("/buscarServicosPorEmpresaIdEUsuarioId")
+    public ResponseEntity<List<BuscarServicoDTO>> buscarServicosPorEmpresaIdEUsuarioId(@RequestParam Long empresaId, @RequestParam Long usuarioId) {
+        final var servicos = servicoService.buscarServicosPorEmpresaIdEUsuarioId(empresaId, usuarioId);
+        final var servicosDTO = servicos.stream().map(BuscarServicoDTO::toDTO).toList();
+        return ResponseEntity.ok().body(servicosDTO);
+    }
+
+    @GetMapping("/buscarServicosPorEmpresaId")
+    public ResponseEntity<List<BuscarServicoDTO>> buscarServicosPorEmpresaId(@RequestParam Long empresaId) {
+        final var servicos = servicoService.buscarServicosPorEmpresaId(empresaId);
+        final var servicosDTO = servicos.stream().map(BuscarServicoDTO::toDTO).toList();
+        return ResponseEntity.ok().body(servicosDTO);
+    }
+
 }

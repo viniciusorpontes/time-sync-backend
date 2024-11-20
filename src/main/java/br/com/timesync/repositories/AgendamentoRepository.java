@@ -16,9 +16,28 @@ public interface AgendamentoRepository extends JpaRepository<Agendamento, Intege
     Optional<Agendamento> findById(@Param("id") Integer id);
 
     @Query("SELECT a FROM Agendamento a " +
-           "LEFT JOIN FETCH a.servicos " +
-           "WHERE a.cliente.id IN :usuariosIds " +
-           "AND a.ativo = TRUE")
-    List<Agendamento> findAllByUsuariosIds(@Param("usuariosIds") List<Integer> usuariosIds);
+            "LEFT JOIN FETCH a.servicos " +
+            "WHERE a.empresa.id = :empresaId " +
+            "AND a.ativo = TRUE")
+    List<Agendamento> findAllByEmpresaId(@Param("empresaId") Long empresaId);
+
+    @Query(value = "SELECT TO_CHAR(DATE_TRUNC('month', data_chegada), 'TMMonth') AS mes, " +
+            "COUNT(*) AS total_agendamentos " +
+            "FROM agendamentos " +
+            "WHERE data_chegada >= NOW() - INTERVAL '4 months' " +
+            "  AND empresa_id = :empresaId " +
+            "GROUP BY DATE_TRUNC('month', data_chegada) " +
+            "ORDER BY DATE_TRUNC('month', data_chegada)", nativeQuery = true)
+    List<Object[]> findAgendamentosCountByMonthAndEmpresaId(@Param("empresaId") Long empresaId);
+
+    @Query(value = "SELECT TO_CHAR(DATE_TRUNC('month', data_chegada), 'TMMonth') AS mes, " +
+            "COUNT(*) AS total_agendamentos " +
+            "FROM agendamentos " +
+            "WHERE data_chegada >= NOW() - INTERVAL '4 months' " +
+            "  AND empresa_id = :empresaId " +
+            "  AND cliente_id = :funcionarioId " +
+            "GROUP BY DATE_TRUNC('month', data_chegada) " +
+            "ORDER BY DATE_TRUNC('month', data_chegada)", nativeQuery = true)
+    List<Object[]> findAgendamentosCountByMonthAndEmpresaIdAndFuncionarioId(@Param("empresaId") Long empresaId, @Param("funcionarioId") Long funcionarioId);
 
 }
