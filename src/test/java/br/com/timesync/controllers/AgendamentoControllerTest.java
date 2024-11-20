@@ -3,6 +3,7 @@ package br.com.timesync.controllers;
 import br.com.timesync.dto.BuscarAgendamentoDTO;
 import br.com.timesync.dto.SalvarOuAlterarAgendamentoDTO;
 import br.com.timesync.entities.Agendamento;
+import br.com.timesync.entities.Empresa;
 import br.com.timesync.entities.Servico;
 import br.com.timesync.entities.Usuario;
 import br.com.timesync.enums.UsuarioEnum;
@@ -80,6 +81,7 @@ public class AgendamentoControllerTest {
         final Servico servico = getServico();
         final Usuario cliente = getCliente();
         final Usuario consumidor = getConsumidor();
+        final Empresa empresa  = getEmpresa();
 
         final LocalDateTime dataAtual = LocalDateTime.now();
 
@@ -89,12 +91,20 @@ public class AgendamentoControllerTest {
                 Boolean.TRUE,
                 Collections.singletonList(servico),
                 cliente,
-                consumidor
+                consumidor,
+                empresa
         );
     }
 
     private BuscarAgendamentoDTO getBuscarAgendamentoDTO(Agendamento agendamento) {
         return BuscarAgendamentoDTO.toDTO(agendamento);
+    }
+
+    private static Empresa getEmpresa() {
+        final Empresa empresa = new Empresa();
+        empresa.setId(1L);
+        empresa.setNome("Barbearia do Vinicius");
+        return empresa;
     }
 
     private static Servico getServico() {
@@ -103,32 +113,35 @@ public class AgendamentoControllerTest {
                 LocalTime.of(1, 0),
                 new BigDecimal("35"),
                 Collections.singletonList(getCliente()),
-                Boolean.TRUE
+                Boolean.TRUE,
+                getEmpresa()
         );
     }
 
     private static Usuario getCliente() {
-        return new Usuario(1,
-                "123.456.789-10",
-                "Vinicius",
-                "vinicius@email.com",
-                "14998124578",
-                UsuarioEnum.CLIENTE,
-                "123456",
-                Boolean.TRUE
-        );
+        final Usuario cliente = new Usuario();
+        cliente.setId(1L);
+        cliente.setCpf("123.456.789-10");
+        cliente.setNome("Vinicius");
+        cliente.setEmail("vinicius@email.com");
+        cliente.setTelefone("14998124578");
+        cliente.setTipo(UsuarioEnum.CLIENTE);
+        cliente.setSenha("123456");
+        cliente.setAtivo(Boolean.TRUE);
+        return cliente;
     }
 
     private static Usuario getConsumidor() {
-        return new Usuario(2,
-                "123.456.789-11",
-                "Matheus",
-                "matheus@email.com",
-                "14998124579",
-                UsuarioEnum.CONSUMIDOR,
-                "123456",
-                Boolean.TRUE
-        );
+        final Usuario consumidor = new Usuario();
+        consumidor.setId(2L);
+        consumidor.setCpf("Matheus");
+        consumidor.setNome("Vinicius");
+        consumidor.setEmail("matheus@email.com");
+        consumidor.setTelefone("14998124579");
+        consumidor.setTipo(UsuarioEnum.CONSUMIDOR);
+        consumidor.setSenha("123456");
+        consumidor.setAtivo(Boolean.TRUE);
+        return consumidor;
     }
 
 }
