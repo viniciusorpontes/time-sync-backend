@@ -1,10 +1,14 @@
 package br.com.timesync.services;
 
+import br.com.timesync.dto.SalvarOuAlterarUsuarioDTO;
 import br.com.timesync.entities.Usuario;
 import br.com.timesync.exceptions.ObjectNotFoundException;
 import br.com.timesync.repositories.UsuarioRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -12,18 +16,42 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
 
-    public Usuario buscarPorId(Integer usuarioId) {
+    public Usuario buscarPorId(Long usuarioId) {
         return this.usuarioRepository.findById(usuarioId).orElseThrow(
                 () -> new ObjectNotFoundException(String.format("Id %s não encontrado", usuarioId)));
     }
 
-    public Usuario buscarPorEmail(String email) {
-        return (Usuario) this.usuarioRepository.findByEmail(email).orElseThrow(
-                () -> new ObjectNotFoundException(String.format("Email %s não encontrado", email)));
+    public List<Usuario> buscarUsuariosPorIds(List<Long> ids) {
+        return this.usuarioRepository.findAllById(ids);
     }
 
-    public Usuario salvar(Usuario usuario) {
-        return usuarioRepository.save(usuario);
+    public List<Usuario> buscarClientes() {
+        return this.usuarioRepository.buscarClientes();
+    }
+
+    public UserDetails buscarUserDetailsPorEmail(String email) {
+        return this.usuarioRepository.findUserDetailsByEmail(email);
+    }
+
+    public Usuario buscarUsuarioPorEmail(String email) {
+        return this.usuarioRepository.findByEmail(email);
+    }
+
+    public Usuario salvar(SalvarOuAlterarUsuarioDTO usuarioDTO) {
+        return this.usuarioRepository.save(usuarioDTO.toEntity());
+    }
+
+    public void alterar(Long id, SalvarOuAlterarUsuarioDTO salvarOuAlterarUsuarioDTO) {
+        buscarPorId(id);
+        final Usuario usuario = salvarOuAlterarUsuarioDTO.toEntity();
+        usuario.setId(id);
+        this.usuarioRepository.save(usuario);
+    }
+
+    public void deletar(Long id) {
+        final Usuario usuario = buscarPorId(id);
+        usuario.setAtivo(false);
+        this.usuarioRepository.save(usuario);
     }
 
 }

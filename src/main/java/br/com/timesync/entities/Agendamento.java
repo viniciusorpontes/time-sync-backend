@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,9 +13,11 @@ import java.util.Objects;
 @Setter
 @ToString
 @Entity
+@Table(name = "agendamentos")
 public class Agendamento {
 
-    public Agendamento(LocalDateTime dataChegada, LocalDateTime dataSaida, List<Servico> servicos, Usuario cliente, Usuario consumidor) {
+    public Agendamento(Empresa empresa, LocalDateTime dataChegada, LocalDateTime dataSaida, List<Servico> servicos, Usuario cliente, Usuario consumidor) {
+        this.empresa = empresa;
         this.dataChegada = dataChegada;
         this.dataSaida = dataSaida;
         this.ativo = Boolean.TRUE;
@@ -40,12 +41,12 @@ public class Agendamento {
     private Boolean ativo;
 
     @ManyToMany
-    @JoinTable(name = "agendamento_servico",
+    @JoinTable(name = "agendamentos_servicos",
             joinColumns = @JoinColumn(name = "agendamento_id"),
             inverseJoinColumns = @JoinColumn(name = "servico_id")
     )
     @ToString.Exclude
-    private List<Servico> servicos = new ArrayList<>();
+    private List<Servico> servicos;
 
     @ManyToOne
     @JoinColumn(name = "cliente_id")
@@ -54,6 +55,10 @@ public class Agendamento {
     @ManyToOne
     @JoinColumn(name = "consumidor_id")
     private Usuario consumidor;
+
+    @ManyToOne
+    @JoinColumn(name = "empresa_id")
+    private Empresa empresa;
 
     @Override
     public boolean equals(Object o) {

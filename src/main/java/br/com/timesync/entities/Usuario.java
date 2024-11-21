@@ -3,8 +3,14 @@ package br.com.timesync.entities;
 import br.com.timesync.enums.UsuarioEnum;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,12 +18,13 @@ import java.util.Objects;
 @Setter
 @ToString
 @Entity
-public class Usuario {
+@Table(name = "usuarios")
+public class Usuario implements UserDetails {
 
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  Integer id;
+    private Long id;
 
     @Column(name = "cpf", nullable = false)
     private String cpf;
@@ -31,14 +38,17 @@ public class Usuario {
     @Column(name = "telefone", nullable = false)
     private String telefone;
 
-    @Column(name = "senha", nullable = false)
-    private String senha;
-
     @Column(name = "tipo", nullable = false)
     private UsuarioEnum tipo;
 
+    @Column(name = "senha", nullable = false)
+    private String senha;
+
     @Column(name = "ativo", nullable = false)
-    private Boolean ativo;
+    private Boolean ativo = Boolean.TRUE;
+
+    @OneToMany(mappedBy = "usuario")
+    private Set<EmpresaUsuario> usuarioEmpresas;
 
     @Override
     public boolean equals(Object o) {
@@ -52,4 +62,40 @@ public class Usuario {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(tipo.name()));
+    }
+
+    @Override
+    public String getPassword() {
+        return senha;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
 }
