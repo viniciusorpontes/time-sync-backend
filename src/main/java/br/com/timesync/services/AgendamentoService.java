@@ -10,20 +10,26 @@ import br.com.timesync.entities.Usuario;
 import br.com.timesync.exceptions.ObjectNotFoundException;
 import br.com.timesync.repositories.AgendamentoRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
 @AllArgsConstructor
 public class AgendamentoService {
 
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
     private final AgendamentoRepository agendamentoRepository;
     private final ServicoService servicoService;
     private final UsuarioService usuarioService;
     private final EmpresaService empresaService;
+    private final EmailService emailService;
 
     public Agendamento buscarPorId(Integer id) {
         return agendamentoRepository.findById(id).orElseThrow(
@@ -42,6 +48,28 @@ public class AgendamentoService {
         final Usuario consumidor = usuarioService.buscarPorId(salvarAgendamentoDTO.consumidorId());
         final Empresa empresa = empresaService.buscarEmpresaPorId(salvarAgendamentoDTO.empresaId());
         final Agendamento agendamento = new Agendamento(empresa, dataChegada, getDataSaida(dataChegada, servicos), servicos, cliente, consumidor);
+
+        final String dataAgendamentoFormatada = agendamento.getDataChegada().format(DATE_TIME_FORMATTER);
+        final String tituloEmail = String.format("Agendamento - %s", dataAgendamentoFormatada);
+        final String corpoEmail = """
+                Agendamento para %s com %s foi realizado com sucesso!
+                
+                Serviços agendados: %s
+
+                Empresa: %s
+                Endereço: %s
+                Telefone: %s / %s
+                """.formatted(
+                dataAgendamentoFormatada,
+                cliente.getNome(),
+                String.join(", ", servicos.stream().map(Servico::getNome).toList()),
+                empresa.getNome(),
+                empresa.getEndereco(),
+                empresa.getTelefone(),
+                cliente.getTelefone()
+        );
+        this.emailService.enviarEmail(consumidor.getEmail(), tituloEmail, corpoEmail);
+
         return this.agendamentoRepository.save(agendamento);
     }
 
@@ -73,7 +101,9 @@ public class AgendamentoService {
         this.agendamentoRepository.save(agendamento);
     }
 
-    /** Função que recebe uma lista de ids de Servicos como parâmetro e retorna uma lista de Servicos */
+    /**
+     * Função que recebe uma lista de ids de Servicos como parâmetro e retorna uma lista de Servicos
+     */
     private List<Servico> getServicos(List<Integer> idsServicos) {
         return new ArrayList<>(idsServicos
                 .stream()

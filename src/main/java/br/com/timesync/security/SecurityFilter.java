@@ -2,7 +2,6 @@ package br.com.timesync.security;
 
 import br.com.timesync.repositories.UsuarioRepository;
 import br.com.timesync.services.TokenService;
-import br.com.timesync.services.UsuarioService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

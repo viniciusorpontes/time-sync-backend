@@ -642,3 +642,8 @@ INSERT INTO agendamentos (data_chegada, data_saida, ativo, cliente_id, consumido
 VALUES ('2024-11-29 17:00', '2024-11-29 18:00', true, 2, 5, 1);
 
 INSERT INTO agendamentos_servicos VALUES (129, 1);
+
+INSERT INTO agendamentos (data_chegada, data_saida, ativo, cliente_id, consumidor_id, empresa_id)
+VALUES ('2024-06-20 17:00', '2024-06-20 18:00', true, 1, 4, 1);
+
+INSERT INTO agendamentos_servicos VALUES (130, 1);
