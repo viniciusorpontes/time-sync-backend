@@ -14,10 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -100,7 +97,7 @@ public class AgendamentoService {
             results = agendamentoRepository.findAgendamentosCountByMonthAndEmpresaId(empresaId);
         }
 
-        final Map<String, Long> agendamentosPorMes = new HashMap<>();
+        final Map<String, Long> agendamentosPorMes = new LinkedHashMap<>();
         for (Object[] row : results) {
             final String mes = (String) row[0];
             final Long totalAgendamentos = (Long) row[1];

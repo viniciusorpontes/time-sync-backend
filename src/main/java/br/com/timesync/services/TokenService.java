@@ -1,6 +1,7 @@
 package br.com.timesync.services;
 
 import br.com.timesync.entities.Usuario;
+import br.com.timesync.repositories.UsuarioRepository;
 import br.com.timesync.utils.ConstanteUtil;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -25,11 +26,11 @@ public class TokenService implements UserDetailsService {
     @Value("${api.security.token.secret}")
     private String secret;
 
-    private final UsuarioService usuarioService;
+    private final UsuarioRepository usuarioRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return usuarioService.buscarUserDetailsPorEmail(email);
+        return usuarioRepository.findUserDetailsByEmail(email);
     }
 
     // Método responsável por gerar Tokens

@@ -9,13 +9,16 @@ import lombok.Data;
 public class BuscarEmpresaDTO {
 
     private Long id;
-
     private String nome;
+    private String endereco;
+    private String telefone;
 
     public static BuscarEmpresaDTO toDTO(Empresa empresa) {
         return new BuscarEmpresaDTO(
                 empresa.getId(),
-                empresa.getNome()
+                empresa.getNome(),
+                empresa.getEndereco(),
+                empresa.getTelefone()
         );
     }
 

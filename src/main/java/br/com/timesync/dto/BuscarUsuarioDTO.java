@@ -11,8 +11,6 @@ public class BuscarUsuarioDTO {
 
     private Long id;
 
-    private String cpf;
-
     private String nome;
 
     private String email;
@@ -24,7 +22,6 @@ public class BuscarUsuarioDTO {
     public static BuscarUsuarioDTO toDTO(Usuario usuario) {
         return new BuscarUsuarioDTO(
                 usuario.getId(),
-                usuario.getCpf(),
                 usuario.getNome(),
                 usuario.getEmail(),
                 usuario.getTelefone(),

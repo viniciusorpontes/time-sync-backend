@@ -22,6 +22,10 @@ public class EmpresaService {
     private final EmpresaRepository empresaRepository;
     private final EmpresaUsuarioRepository empresaUsuarioRepository;
 
+    public List<BuscarEmpresaDTO> buscarEmpresas() {
+        return this.empresaRepository.findAll().stream().map(BuscarEmpresaDTO::toDTO).toList();
+    }
+
     public Empresa buscarEmpresaPorId(Long id) {
         return this.empresaRepository.findById(id).orElseThrow(
                 () -> new ObjectNotFoundException(String.format("Id %s não encontrado", id)));
@@ -43,6 +47,8 @@ public class EmpresaService {
         Empresa empresa = new Empresa();
 
         empresa.setNome(dto.nome());
+        empresa.setEndereco(dto.endereco());
+        empresa.setTelefone(dto.telefone());
         empresa.setAtivo(true);
         empresa = this.empresaRepository.save(empresa);
 
@@ -58,6 +64,8 @@ public class EmpresaService {
     public Empresa alterar(Long id, AlterarEmpresaDTO dto) {
         final Empresa empresa = buscarEmpresaPorId(id);
         empresa.setNome(dto.nome());
+        empresa.setEndereco(dto.endereco());
+        empresa.setTelefone(dto.telefone());
         return this.empresaRepository.save(empresa);
     }
 

@@ -121,7 +121,6 @@ public class AgendamentoControllerTest {
     private static Usuario getCliente() {
         final Usuario cliente = new Usuario();
         cliente.setId(1L);
-        cliente.setCpf("123.456.789-10");
         cliente.setNome("Vinicius");
         cliente.setEmail("vinicius@email.com");
         cliente.setTelefone("14998124578");
@@ -134,7 +133,6 @@ public class AgendamentoControllerTest {
     private static Usuario getConsumidor() {
         final Usuario consumidor = new Usuario();
         consumidor.setId(2L);
-        consumidor.setCpf("Matheus");
         consumidor.setNome("Vinicius");
         consumidor.setEmail("matheus@email.com");
         consumidor.setTelefone("14998124579");

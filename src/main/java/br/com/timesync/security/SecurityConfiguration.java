@@ -3,6 +3,7 @@ package br.com.timesync.security;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,15 +24,18 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf(AbstractHttpConfigurer::disable) // Desabilitando segurança contrar CSRF
+        return http.csrf(AbstractHttpConfigurer::disable) // Desabilitando segurança contra CSRF
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Alterando política de segurança da aplicação para STATELESS
                 .authorizeHttpRequests(req -> {
-                    req.requestMatchers("/login").permitAll(); // Liberando o endpoint /login para ser acessado sem necessitar de autenticação
+                    req.requestMatchers(HttpMethod.POST, "/usuarios").permitAll(); // Permite POST em /usuarios
+                    req.requestMatchers(HttpMethod.GET, "/empresas").permitAll(); // Permite GET em /empresas
+                    req.requestMatchers("/login").permitAll(); // Permite acesso ao loginreq.anyRequest().authenticated();
                     req.anyRequest().authenticated(); // Bloqueando todos os outros endpoints da aplicação
                 })
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class) // Alterando ordem dos filtros para nosso filtro personalizado rodar primeiro
                 .build();
     }
+
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {

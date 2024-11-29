@@ -19,6 +19,11 @@ public class EmpresaController {
 
     private final EmpresaService empresaService;
 
+    @GetMapping
+    public ResponseEntity<List<BuscarEmpresaDTO>> buscarEmpresas() {
+        return ResponseEntity.ok().body(empresaService.buscarEmpresas());
+    }
+
     @GetMapping("/buscarEmpresasPorUsuarioId")
     public ResponseEntity<List<BuscarEmpresaDTO>> buscarEmpresasPorUsuarioId(@RequestParam Long usuarioId) {
         return ResponseEntity.ok().body(empresaService.buscarEmpresasPorUsuarioId(usuarioId));

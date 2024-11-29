@@ -23,6 +23,12 @@ public class Empresa {
     @Column(name = "nome", nullable = false)
     private String nome;
 
+    @Column(name = "endereco", nullable = false)
+    private String endereco;
+
+    @Column(name = "telefone", nullable = false)
+    private String telefone;
+
     @OneToMany(mappedBy = "empresa")
     private List<EmpresaUsuario> usuariosEmpresas;
 

@@ -5,7 +5,7 @@ import br.com.timesync.entities.Usuario;
 import br.com.timesync.exceptions.ObjectNotFoundException;
 import br.com.timesync.repositories.UsuarioRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +15,7 @@ import java.util.List;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public Usuario buscarPorId(Long usuarioId) {
         return this.usuarioRepository.findById(usuarioId).orElseThrow(
@@ -29,22 +30,21 @@ public class UsuarioService {
         return this.usuarioRepository.buscarClientes();
     }
 
-    public UserDetails buscarUserDetailsPorEmail(String email) {
-        return this.usuarioRepository.findUserDetailsByEmail(email);
-    }
-
     public Usuario buscarUsuarioPorEmail(String email) {
         return this.usuarioRepository.findByEmail(email);
     }
 
     public Usuario salvar(SalvarOuAlterarUsuarioDTO usuarioDTO) {
-        return this.usuarioRepository.save(usuarioDTO.toEntity());
+        final Usuario usuario = usuarioDTO.toEntity();
+        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+        return this.usuarioRepository.save(usuario);
     }
 
     public void alterar(Long id, SalvarOuAlterarUsuarioDTO salvarOuAlterarUsuarioDTO) {
         buscarPorId(id);
         final Usuario usuario = salvarOuAlterarUsuarioDTO.toEntity();
         usuario.setId(id);
+        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
         this.usuarioRepository.save(usuario);
     }
 

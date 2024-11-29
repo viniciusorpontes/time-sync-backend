@@ -1,5 +1,6 @@
 package br.com.timesync.security;
 
+import br.com.timesync.repositories.UsuarioRepository;
 import br.com.timesync.services.TokenService;
 import br.com.timesync.services.UsuarioService;
 import jakarta.servlet.FilterChain;
@@ -22,7 +23,7 @@ public class SecurityFilter extends OncePerRequestFilter {
     private static final String AUTHORIZATION_HEADER = "Authorization";
 
     private final TokenService tokenService;
-    private final UsuarioService usuarioService;
+    private final UsuarioRepository usuarioRepository;
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
@@ -33,7 +34,7 @@ public class SecurityFilter extends OncePerRequestFilter {
             // Busca o e-mail do usuário que está tentando logar na aplicação
             var emailUsuarioLogin = tokenService.getEmailUsuarioLogin(tokenJWT);
             // Busca o Usuario por email
-            var usuario = usuarioService.buscarUserDetailsPorEmail(emailUsuarioLogin);
+            var usuario = usuarioRepository.findUserDetailsByEmail(emailUsuarioLogin);
             // Caso o usuário seja encontrado, autentica o usuário
             var authentication = new UsernamePasswordAuthenticationToken(usuario, null, null);
             // Seta o Usuario como autenticado

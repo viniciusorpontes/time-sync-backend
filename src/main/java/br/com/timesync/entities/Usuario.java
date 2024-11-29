@@ -26,9 +26,6 @@ public class Usuario implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "cpf", nullable = false)
-    private String cpf;
-
     @Column(name = "nome", nullable = false)
     private String nome;
 

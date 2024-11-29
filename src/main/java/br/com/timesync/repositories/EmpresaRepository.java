@@ -10,10 +10,14 @@ import java.util.List;
 @Repository
 public interface EmpresaRepository extends JpaRepository<Empresa, Long> {
 
+    @Query("SELECT e FROM Empresa e WHERE e.ativo")
+    List<Empresa> findAll();
+
     @Query("SELECT e FROM Empresa e " +
             "INNER JOIN FETCH e.usuariosEmpresas ue " +
             "INNER JOIN FETCH ue.usuario u " +
-            "WHERE u.id = :usuarioId ")
+            "WHERE u.id = :usuarioId " +
+            "  AND e.ativo")
     List<Empresa> buscarEmpresasPorUsuarioId(Long usuarioId);
 
 }

@@ -79,7 +79,7 @@ public class ServicoService {
             results = servicoRespository.findServicosCountByEmpresaId(empresaId);
         }
 
-        final Map<String, Long> topServicos = new HashMap<>();
+        final Map<String, Long> topServicos = new LinkedHashMap<>();
         for (Object[] row : results) {
             final String nomeServico = (String) row[0];
             final Long totalServicos = (Long) row[1];
